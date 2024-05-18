@@ -8,6 +8,7 @@ import FanModel, { IFan } from '@/models/entities/fanModel'
 import SetFanRequest from '@/models/requests/FanRequests/setFanRequest'
 import SendFanSignalRequest from '@/models/requests/FanRequests/sendFanSignalRequest'
 import FanStatsResponse from "@/models/responses/statsFanResponse";
+import SendFanSpeedSignalRequest from '@/models/requests/FanRequests/sendFanSpeedForFanRequest'
 
 type FanList = IFan[]
 
@@ -71,6 +72,23 @@ const sendFanSignal = async (sendFanSignalRequest: SendFanSignalRequest) => {
   }
 }
 
+const sendFanSpeedSignal = async (sendFanSpeedSignalRequest: SendFanSpeedSignalRequest) => {
+  try {
+    type Fan = IFan | null 
+
+    const fan: Fan = await FanModel.findById(sendFanSpeedSignalRequest.fanId)
+
+    if (fan != null) {
+      fan.fanSpeed = sendFanSpeedSignalRequest.fanSpeed
+      fan.save()
+    }
+    await axios.post(`${espFanApiUrl}/sendspeedsignal`, sendFanSpeedSignalRequest)
+  } catch (error) {
+    if (error instanceof AxiosError) throw new Error('Cannot send signal !')
+    if (error instanceof Error) throw new Error('Cannot find fan !')
+  }
+}
+
 const setFan = async (setFanRequest: SetFanRequest) => {
   try {
     await axios.post(`${espFanApiUrl}/set`, setFanRequest)
@@ -113,5 +131,6 @@ export default {
   createNewFan,
   setFan,
   sendFanSignal,
-  getFanStats
+  getFanStats,
+  sendFanSpeedSignal
 }

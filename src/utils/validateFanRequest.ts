@@ -1,7 +1,7 @@
 import LinkFanRequest from "@/models/requests/FanRequests/linkFanRequest";
 import SendFanSignalRequest from "@/models/requests/FanRequests/sendFanSignalRequest";
 import SetFanRequest from "@/models/requests/FanRequests/setFanRequest";
-
+import SendFanSpeedSignalRequest from "@/models/requests/FanRequests/sendFanSpeedForFanRequest";
 export const isLinkFanRequestValid = (request: LinkFanRequest): boolean => {
     if (request.name == undefined) return false
     if (request.userId == undefined) return false
@@ -29,3 +29,11 @@ export const isSendFanSignalRequest = (request: SendFanSignalRequest): boolean =
     return true
 }
 
+export const isSendFanSpeedSignalRequest = (request: SendFanSpeedSignalRequest): boolean => {
+    if (request.fanId == undefined) return false
+    if (request.userId == undefined) return false;
+
+    if (request.fanSpeed == undefined) return false;
+
+    return true
+}

@@ -28,6 +28,8 @@ router.post('/:id/set', fanController.powerFan)
 
 router.post('/:id/sendsignal', fanController.sendFanSignal)
 
+router.post('/:id/sendspeedsignal', fanController.sendFanSpeedSignal)
+
 router.post('/', fanController.linkNewFan)
 
 export default router

@@ -12,12 +12,13 @@ import { Request, Response } from 'express'
 import LinkFanRequest from '@/models/requests/FanRequests/linkFanRequest'
 import fanService from '@/services/fanService'
 
-import { isLinkFanRequestValid, isSendFanSignalRequest, isSetFanRequestValid } from '@/utils/validateFanRequest'
+import { isLinkFanRequestValid, isSendFanSignalRequest, isSetFanRequestValid, isSendFanSpeedSignalRequest } from '@/utils/validateFanRequest'
 import SetFanRequest from '@/models/requests/FanRequests/setFanRequest'
 import SendFanSignalRequest from '@/models/requests/FanRequests/sendFanSignalRequest'
 import SetDeviceRequest from '@/models/requests/DeviceRequests/setDeviceRequest'
 import SendSignalRequest from '@/models/requests/DeviceRequests/sendSignalRequest'
 import FanStatsResponse from '@/models/responses/statsFanResponse'
+import SendFanSpeedSignalRequest from '@/models/requests/FanRequests/sendFanSpeedForFanRequest'
 
 const getAllFan = async (_: Request, res: Response) => {
     try {
@@ -75,6 +76,8 @@ const sendFanSignal = async (req: Request, res: Response) => {
     }
 }
 
+
+
 const getFanStats = async (req: Request, res: Response) => {
     try {
         const stats: FanStatsResponse | undefined = await fanService.getFanStats(req.params.id)
@@ -88,4 +91,17 @@ const getFanStats = async (req: Request, res: Response) => {
 
 // }
 
-export default { getAllFan, getSingleFan, linkNewFan, powerFan, sendFanSignal, getFanStats}
+
+const sendFanSpeedSignal = async (req: Request, res: Response) => {
+    try {
+        const sendFanSpeedSignalRequest = <SendFanSpeedSignalRequest>req.body
+        sendFanSpeedSignalRequest.fanId = req.params.id
+        if (!isSendFanSpeedSignalRequest(sendFanSpeedSignalRequest)) throw Error('Missing field(s)')
+        await fanService.sendFanSpeedSignal(sendFanSpeedSignalRequest)
+        res.json({ message: 'Successfully send signal' })
+    } catch (error) {
+        if (error instanceof Error) res.status(400).send({message: error.message})
+    }
+}
+
+export default { getAllFan, getSingleFan, linkNewFan, powerFan, sendFanSignal, getFanStats, sendFanSpeedSignal}

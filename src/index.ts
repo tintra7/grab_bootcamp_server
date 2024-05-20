@@ -7,7 +7,7 @@ import deviceRouter from '@/routes/deviceRoute'
 import userRouter from '@/routes/userRoute'
 import roomRouter from '@/routes/roomRoute'
 import sensorRouter from '@/routes/sensorRoute'
-
+import fanRouter from '@/routes/fanRouter'
 dotenv.config()
 const DB_HOST = process.env.DB_HOST
 const DB_PORT = process.env.DB_PORT
@@ -32,6 +32,8 @@ app.use('/api/users', userRouter)
 app.use('/api/rooms', roomRouter)
 
 app.use('/api/sensors', sensorRouter)
+
+app.use('/api/fans', fanRouter)
 
 app.listen(PORT, () => {
   console.log('SERVER IS UP ON PORT:', PORT)

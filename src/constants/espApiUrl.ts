@@ -1,1 +1,1 @@
-export const espApiUrl = 'http://172.20.10.3/api/device'
+export const espApiUrl = 'http://192.168.1.121/api/device'

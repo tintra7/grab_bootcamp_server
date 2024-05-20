@@ -33,7 +33,7 @@ const getSingleRoom = async (roomId: mongoose.Types.ObjectId): Promise<IRoom | n
   type Room = IRoom | null
   let room: Room
   try {
-    room = await User.findById(roomId)
+    room = await Room.findById(roomId)
     if (room) {
       return room
     } else {

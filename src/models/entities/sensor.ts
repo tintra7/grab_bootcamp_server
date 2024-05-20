@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-interface ISensor extends mongoose.Document {
+export interface ISensor extends mongoose.Document {
   temp: number
   humidity: number
   espId: mongoose.Types.ObjectId

@@ -8,10 +8,10 @@ import SetDeviceRequest from '@/models/requests/setDeviceRequest'
 import SendSignalRequest from '@/models/requests/sendSignalRequest'
 import StatsResponse from '@/models/responses/statsResponse'
 
-const getAllDevices = async (_: Request, res: Response) => {
+const getAllDevices = async (req: Request, res: Response) => {
   try {
-    const deviceList = await deviceService.getDeviceList()
-    console.log(deviceList)
+    const { roomId } = req.query
+    const deviceList = await deviceService.getDeviceList(roomId as string)
     res.json(deviceList)
   } catch (error) {
     if (error instanceof Error) res.status(500).send({ error: error.message })

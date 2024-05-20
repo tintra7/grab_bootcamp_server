@@ -46,11 +46,11 @@ const sendEmergencyMail = async (deviceName: string) => {
   }
 }
 
-const getDeviceList = async (): Promise<DeviceList> => {
+const getDeviceList = async (roomId: string): Promise<DeviceList> => {
   let deviceList: DeviceList = []
 
   try {
-    deviceList = await DeviceModel.find()
+    deviceList = await DeviceModel.find(roomId ? { roomId } : {})
   } catch (error) {
     throw new Error('Failed to get device list')
   }
@@ -126,10 +126,10 @@ const getStats = async (deviceId: string) => {
       const room = await Room.findById(device.roomId)
       const sensor = await Sensor.findOne({ roomId: room?._id })
       if (sensor != null) {
-        sensor.temp = stats.data.temp
-        sensor.humidity = stats.data.humidity
+        sensor.temp = stats.data.temp || 28
+        sensor.humidity = stats.data.humidity || 50.8
 
-        sensor.save()
+        // sensor.save()
 
         if (sensor.temp >= 32) await sendEmergencyMail(device.name)
 

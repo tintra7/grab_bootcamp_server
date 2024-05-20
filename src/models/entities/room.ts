@@ -5,7 +5,7 @@ export interface IRoom extends mongoose.Document {
   width: number
   height: number
   userId: mongoose.Types.ObjectId
-  sensorId: mongoose.Types.ObjectId[]
+  sensorId: mongoose.Types.ObjectId
 }
 
 const Schema = new mongoose.Schema<IRoom>(
@@ -26,13 +26,11 @@ const Schema = new mongoose.Schema<IRoom>(
       ref: 'User',
       required: true
     },
-    sensorId: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Sensor',
-        required: true
-      }
-    ]
+    sensorId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Sensor',
+      required: true
+    }
   },
   {
     versionKey: false

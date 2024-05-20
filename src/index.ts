@@ -6,6 +6,7 @@ import cors from 'cors'
 import deviceRouter from '@/routes/deviceRoute'
 import userRouter from '@/routes/userRoute'
 import roomRouter from '@/routes/roomRoute'
+import sensorRouter from '@/routes/sensorRoute'
 
 dotenv.config()
 const DB_HOST = process.env.DB_HOST
@@ -29,6 +30,8 @@ app.use('/api/devices', deviceRouter)
 app.use('/api/users', userRouter)
 
 app.use('/api/rooms', roomRouter)
+
+app.use('/api/sensors', sensorRouter)
 
 app.listen(PORT, () => {
   console.log('SERVER IS UP ON PORT:', PORT)

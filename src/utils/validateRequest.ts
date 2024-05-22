@@ -10,7 +10,7 @@ import UpdateRoomRequest from '@/models/requests/updateRoomRequest'
 export const isLinkRequestValid = (request: LinkDeviceRequest): boolean => {
   if (request.name == undefined) return false
   if (request.brand == undefined) return false
-  if (request.userId == undefined) return false
+  if (request.roomId == undefined) return false
 
   if (request.profile != undefined) {
     for (const mode of Object.values(MODE)) {

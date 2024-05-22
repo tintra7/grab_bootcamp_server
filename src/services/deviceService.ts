@@ -5,9 +5,9 @@ import nodemailer, { TransportOptions } from 'nodemailer'
 import { espApiUrl } from '@/constants/espApiUrl'
 import { auth, mailoptions } from '@/constants/email'
 
-import LinkDeviceRequest from '@/models/requests/linkDeviceRequest'
-import SetDeviceRequest from '@/models/requests/setDeviceRequest'
-import SendSignalRequest from '@/models/requests/sendSignalRequest'
+import LinkDeviceRequest from '@/models/requests/DeviceRequests/linkDeviceRequest'
+import SetDeviceRequest from '@/models/requests/DeviceRequests/setDeviceRequest'
+import SendSignalRequest from '@/models/requests/DeviceRequests/sendSignalRequest'
 import StatsResponse from '@/models/responses/statsResponse'
 import { IDevice, Device as DeviceModel, Sensor, Room } from '@/models/entities'
 

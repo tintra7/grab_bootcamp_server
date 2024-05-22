@@ -19,3 +19,5 @@ router.get('/test/email', deviceController.testController)
 router.post('/', deviceController.linkNewDevice)
 
 export default router
+
+

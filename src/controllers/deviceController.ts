@@ -1,11 +1,12 @@
 import { Request, Response } from 'express'
 
-import LinkDeviceRequest from '@/models/requests/linkDeviceRequest'
+import LinkDeviceRequest from '@/models/requests/DeviceRequests/linkDeviceRequest'
+import SetDeviceRequest from '@/models/requests/DeviceRequests/setDeviceRequest'
+import SendSignalRequest from '@/models/requests/DeviceRequests/sendSignalRequest'
+
 import deviceService from '@/services/deviceService'
 
 import { isLinkRequestValid, isSendSignalRequest, isSetDeviceRequestValid } from '@/utils/validateRequest'
-import SetDeviceRequest from '@/models/requests/setDeviceRequest'
-import SendSignalRequest from '@/models/requests/sendSignalRequest'
 import StatsResponse from '@/models/responses/statsResponse'
 
 const getAllDevices = async (req: Request, res: Response) => {

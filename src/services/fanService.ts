@@ -1,7 +1,9 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
+import { google } from 'googleapis'
+import nodemailer, { TransportOptions } from 'nodemailer'
 
 import { espFanApiUrl } from '@/constants/espFanApiUrl'
-// import { auth, mailoptions } from '@/constants/email'
+import { auth, mailoptions } from '@/constants/email'
 
 import LinkFanRequest from '@/models/requests/FanRequests/linkFanRequest'
 import FanModel, { IFan } from '@/models/entities/fanModel'
@@ -11,6 +13,41 @@ import FanStatsResponse from "@/models/responses/statsFanResponse";
 import SendFanSpeedSignalRequest from '@/models/requests/FanRequests/sendFanSpeedForFanRequest'
 
 type FanList = IFan[]
+
+
+const sendEmergencyMail = async (fanName: string) => {
+  try {
+    const oAuth2Client = new google.auth.OAuth2(
+      process.env.CLIENT_ID,
+      process.env.CLIENT_SECRET,
+      process.env.REDIRECT_URI
+    )
+
+    oAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN })
+
+    const accessToken = await oAuth2Client.getAccessToken()
+
+    const transport = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true,
+      auth: {
+        ...auth,
+        accessToken: accessToken
+      }
+    } as TransportOptions)
+
+    const mailOptions = {
+      ...mailoptions,
+      text: `HIGH TEMPERATURE ON DEVICE ${fanName}`
+    }
+
+    await transport.sendMail(mailOptions)
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 
 const getFanList = async (): Promise<FanList> => {
   let fanList: FanList = []
@@ -109,9 +146,9 @@ const getFanStats = async (fanId: string) => {
       fan.envTemp = stats.data.temp
       fan.humidity = stats.data.humidity
 
-      fan.save()
+      // fan.save()
 
-      // if (fan.envTemp >= 32) await sendEmergencyMail(fan.name)
+      if (fan.envTemp >= 32) await sendEmergencyMail(fan.name)
 
       return {
         humidity: stats.data.humidity,

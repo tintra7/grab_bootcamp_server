@@ -75,7 +75,10 @@ const getSingleDevice = async (deviceId: string): Promise<IDevice | null> => {
 
 const createNewDevice = async (newDevice: LinkDeviceRequest) => {
   try {
-    const newDeviceModel = new DeviceModel(newDevice)
+    const room = await Room.findById(newDevice.roomId)
+    const sensorId = room?.sensorId
+    const sensor = await Sensor.findById(sensorId)
+    const newDeviceModel = new DeviceModel({ ...newDevice, espId: sensor?.espId })
     await newDeviceModel.save()
   } catch (error) {
     throw new Error(`Cannot save new device`)

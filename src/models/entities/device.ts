@@ -56,7 +56,7 @@ const Schema = new mongoose.Schema<IDevice>(
     },
     temp: {
       type: Number,
-      default: -1
+      default: 24
     },
     currentProfile: {
       type: String,

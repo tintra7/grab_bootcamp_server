@@ -1,9 +1,9 @@
 import { BRAND, MODE, FANSPEED } from '@/constants/enum'
 
 interface LinkDeviceRequest {
-  userId: string
   name: string
   brand: BRAND
+  roomId: string
   profile: {
     [key in MODE]: {
       temp: number
